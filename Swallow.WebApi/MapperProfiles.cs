@@ -8,7 +8,8 @@ namespace Swallow.WebApi
     {
         public MapperProfiles()
         {
-            CreateMap<User, UserDto>();
+            CreateMap<User, UserDto>()
+                .ForMember(x => x.IsActive, y => y.MapFrom(z => z.UserRole.IsAccountActive));
             CreateMap<CreateUserDto, User>()
                 .ForMember(x => x.PasswordHash, y => y.MapFrom(z => z.Password))
                 .ForMember(x => x.TelephoneNumber, y => y.MapFrom(z => z.Telephone));

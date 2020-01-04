@@ -35,14 +35,9 @@ namespace Swallow.Core.Services
             throw new NotImplementedException();
         }
 
-        public ICollection<User> GetAllUsers()
-        {
-            return _unitOfWork.Users.GetAll();
-        }
-
         public KeyValuePair<User, string> SignInAsync(string username, string password)
         {
-            var user = _unitOfWork.Users.GetByUsername(username) ?? throw new ArgumentOutOfRangeException();
+            var user = _unitOfWork.Users.GetByUsername(username);
             if (!user.UserRole.IsAccountActive)
             {
                 throw new InvalidCredentialException("Account is not activated yet");
@@ -71,7 +66,7 @@ namespace Swallow.Core.Services
             }
             else
             {
-                throw new InvalidCredentialException();
+                throw new InvalidCredentialException("Password is not valid");
             }
         }
     }

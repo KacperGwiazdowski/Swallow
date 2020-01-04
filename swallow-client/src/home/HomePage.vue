@@ -4,8 +4,6 @@
     <div class="content">
       <!-- <h1>Hi {{ firstName }}!</h1> -->
       <span>You're logged in!</span>
-      <button v-on:click="getAll()">asdasd</button>
-      <p></p>
     </div>
   </div>
 </template>

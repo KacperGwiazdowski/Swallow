@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Authentication;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace Swallow.WebApi.Controllers
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
 
-        public UserController(ILogger<UserController> logger,IMapper mapper, IUserService userService)
+        public UserController(ILogger<UserController> logger, IMapper mapper, IUserService userService)
         {
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
@@ -28,7 +29,7 @@ namespace Swallow.WebApi.Controllers
             _userService = userService ??
                 throw new ArgumentNullException(nameof(userService));
         }
-        
+
         [AllowAnonymous]
         [HttpPost(nameof(AddNewUser))]
         public ActionResult<Guid> AddNewUser(CreateUserDto createUserDto)
@@ -42,8 +43,21 @@ namespace Swallow.WebApi.Controllers
         public ActionResult<UserLoginDto> SignIn(CredentialsDto credentialsDto)
         {
 
-            var userWithToken = 
-                _userService.SignInAsync(credentialsDto.Username, credentialsDto.Password);
+            KeyValuePair<User, string> userWithToken;
+            try
+            {
+                userWithToken = _userService.SignInAsync(credentialsDto.Username, credentialsDto.Password);
+            }
+            catch (InvalidCredentialException ex)
+            {
+
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(new { message = "Username does not exist" });
+            }
+
             var userToReturn = _mapper.Map<UserLoginDto>(userWithToken.Key);
             userToReturn.Token = userWithToken.Value;
             return Ok(userToReturn);
@@ -55,16 +69,5 @@ namespace Swallow.WebApi.Controllers
         {
             return Ok();
         }
-
-
-        [Authorize]
-        [HttpGet(nameof(GetAllUsers))]
-        public ActionResult<ICollection<User>> GetAllUsers()
-        {
-            var usersToMap = _userService.GetAllUsers();
-            var usersToReturn = _mapper.Map<ICollection<UserDto>>(usersToMap);
-            return Ok(usersToReturn);
-        }
-
     }
 }

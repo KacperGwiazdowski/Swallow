@@ -6,7 +6,6 @@ namespace Swallow.Core.Services
 {
     public interface IUserService
     {
-        ICollection<User> GetAllUsers();
         User GetUser(Guid userId);
         Guid AddUser(User user);
         KeyValuePair<User, string> SignInAsync(string username, string password);

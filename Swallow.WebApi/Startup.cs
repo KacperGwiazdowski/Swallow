@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Net.Http.Headers;
+using System.Security.Claims;
 
 namespace Swallow.WebApi
 {
@@ -33,9 +34,15 @@ namespace Swallow.WebApi
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordSecurityService, PasswordSecurityService>();
-            services.AddCors(options => options.AddPolicy("AllowAnyOrigin", builder =>
+            services.AddScoped<IAdminService, AdminService>();
+            services.AddCors(options => options.AddPolicy("AllowLocalhost", builder =>
             {
-                builder.AllowAnyOrigin();
+                builder
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .WithOrigins("http://localhost:8081", "http://localhost:8080")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+
                 builder.AllowAnyMethod();
                 builder.WithHeaders(HeaderNames.ContentType,
                     HeaderNames.Authorization);
@@ -44,9 +51,9 @@ namespace Swallow.WebApi
             services
                 .AddAuthentication(x =>
                  {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
+                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                 })
                 .AddJwtBearer(x =>
                 {
                     x.RequireHttpsMetadata = false;
@@ -59,7 +66,12 @@ namespace Swallow.WebApi
                         ValidateAudience = false
                     };
                 });
-
+            services.AddAuthorization(
+                auth =>
+                {
+                    auth.AddPolicy("RequireAdmin", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+                }
+            );
 
             services.AddSwaggerGen(c =>
             {
@@ -81,8 +93,8 @@ namespace Swallow.WebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-            app.UseCors("AllowAnyOrigin");
-            app.UseHttpsRedirection();
+            app.UseCors("AllowLocalhost");
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 

@@ -12,15 +12,22 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <router-link to="/" class="nav-link"
-            >Home<span class="sr-only">(current)</span></router-link
-          >
+          <router-link to="/" class="nav-link">
+            Home
+            <span class="sr-only">(current)</span>
+          </router-link>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Data statistics</a>
         </li>
         <li class="nav-item">
           <a class="nav-link">Map</a>
+        </li>
+        <li class="nav-item" v-if="isAdmin()">
+          <router-link to="/admin" class="nav-link">
+            Admin panel
+            <span class="sr-only">(current)</span>
+          </router-link>
         </li>
       </ul>
       <span class="navbar-text">
@@ -33,6 +40,19 @@
 </template>
 
 <script>
+function parseJwt(token) {
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function(c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+  return JSON.parse(jsonPayload);
+}
 import dictionary from "../../shared/dictionary";
 import { mapState, mapActions } from "vuex";
 
@@ -40,11 +60,18 @@ export default {
   name: "Navbar",
   data() {
     return {
+      user: JSON.parse(localStorage.getItem("user")),
+
       appName: dictionary["appName"]
     };
   },
   methods: {
-    ...mapActions("account", ["logout"])
+    ...mapActions("account", ["logout"]),
+    isAdmin() {
+      let claims = parseJwt(this.user.token);
+      console.log(claims);
+      return claims.role === "Admin";
+    }
   }
 };
 </script>

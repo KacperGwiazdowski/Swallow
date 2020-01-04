@@ -21,6 +21,18 @@ namespace Swallow.DataAccessLayer
                 Email = "aaa",
                 TelephoneNumber = "1234",
                 UserRole = new UserRole { Name = "Admin", IsAccountActive = true }
+            },
+             new User
+            {
+                Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                Username = "b",
+                FirstName = "b",
+                LastName = "b",
+                PasswordHash = "0878CCA545CD1885D6AAAF7117199F0605802867",
+                CreationDate = DateTime.Now,
+                Email = "aaa",
+                TelephoneNumber = "1234",
+                UserRole = new UserRole { Name = "RegularUser", IsAccountActive = false }
             }
         };
 
@@ -38,7 +50,7 @@ namespace Swallow.DataAccessLayer
 
         public User Get(Guid id)
         {
-            throw new NotImplementedException();
+            return _users.Single(x => x.Id.Equals(id));
         }
 
         public ICollection<User> GetAll()
@@ -53,7 +65,8 @@ namespace Swallow.DataAccessLayer
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
+            return 1;
         }
     }
 }

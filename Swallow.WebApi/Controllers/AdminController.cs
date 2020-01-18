@@ -31,8 +31,15 @@ namespace Swallow.WebApi.Controllers
                 throw new ArgumentNullException(nameof(adminService));
         }
 
-        [HttpPut(nameof(ActivateUserAccount))]
+        [HttpPut(nameof(ActivateUserAccount) + "/{id}")]
         public ActionResult ActivateUserAccount(Guid id)
+        {
+            _adminService.ActivateUserAccount(id);
+            return Ok();
+        }
+
+        [HttpPut(nameof(DectivateUserAccount) + "/{id}")]
+        public ActionResult DectivateUserAccount(Guid id)
         {
             _adminService.ActivateUserAccount(id);
             return Ok();

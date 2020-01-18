@@ -33,6 +33,18 @@ namespace Swallow.DataAccessLayer
                 Email = "aaa",
                 TelephoneNumber = "1234",
                 UserRole = new UserRole { Name = "RegularUser", IsAccountActive = false }
+            },
+              new User
+            {
+                Id = Guid.NewGuid(),
+                Username = "a",
+                FirstName = "a",
+                LastName = "a",
+                PasswordHash = "0878CCA545CD1885D6AAAF7117199F0605802867",
+                CreationDate = DateTime.Now,
+                Email = "a",
+                TelephoneNumber = "12341",
+                UserRole = new UserRole { Name = "RegularUser", IsAccountActive = true }
             }
         };
 

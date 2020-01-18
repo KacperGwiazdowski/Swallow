@@ -2,14 +2,20 @@
   <div>
     <Navbar></Navbar>
     <div class="content">
-      <!-- <h1>Hi {{ firstName }}!</h1> -->
-      <div>Users:</div>
-      <ul v-if="users.items">
-        <li
-          v-for="user in users.items"
-          :key="user.id"
-        >{{user.id}} {{user.username}} {{user.isActive}}</li>
-      </ul>
+      <table v-if="users.items" class="table">
+      <thead class="thead-light">
+        <tr>
+          <th>Username</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tr v-for="user in users.items"
+          :key="user.id">
+        <td> {{user.username}}</td>
+        <td v-if="!user.isActive"><button class="btn btn-primary" v-on:click="activateAndReloadUsers(user.id)">Activate account</button></td>
+        <td v-if="user.isActive"><button class="btn btn-primary">Deactivate account</button></td>
+      </tr>
+    </table>
     </div>
   </div>
 </template>
@@ -21,8 +27,13 @@ export default {
   components: { Navbar },
   methods: {
     ...mapActions("users", {
-      getAllUsers: "getAll"
-    })
+      getAllUsers: "getAll",
+      activateUser: "activateUser"
+    }),
+    activateAndReloadUsers(id){
+      this.activateUser(id);
+      this.getAllUsers();
+    }
   },
   computed: {
     ...mapState({
@@ -42,5 +53,9 @@ export default {
 <style scoped>
 .content {
   margin: 20px;
+}
+
+.table{
+  width: 50%;
 }
 </style>

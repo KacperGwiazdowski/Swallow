@@ -7,6 +7,8 @@ namespace Swallow.Core.Domains.CollectedData
     {
         public string ParameterName { get; set; }
         public string ChemicalFormula { get; set; }
+
+        public int StationId { get; set; }
         public MeasurmentStation MeasurmentStation { get; set; }
         ICollection<DataMeasurment> DataMeasurments { get; set; }
     }

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using AutoMapper;
 using Swallow.DataAccessLayer;
 using Swallow.Core.Repository;
@@ -13,6 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Net.Http.Headers;
 using System.Security.Claims;
+using Swallow.DataCollector.Gis;
+using Swallow.Core.Domains.CollectedData;
 
 namespace Swallow.WebApi
 {
@@ -30,16 +34,29 @@ namespace Swallow.WebApi
         {
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup).Assembly);
-            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRepository<MeasurmentStation, int>, MeasurmentStationRepository>();
+            services.AddScoped<IRepository<Sensor, int>, SensorRepository>();
+            services.AddScoped<IRepository<DataMeasurment, long>, DataMeasurmentRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordSecurityService, PasswordSecurityService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IDataCollectionService, DataCollectionService>();
+            services.AddSingleton<IDataCollector>(sp => new GisDataCollector(Configuration.GetValue<string>("GiosBaseUrl")));
+
+            
+            services.AddDbContext<SwallowCollectedDataDbContext>(o =>
+                o.UseLazyLoadingProxies()
+                .UseNpgsql("User ID=postgres;Password=admin;Host=localhost;Port=5432;Database=SwallowDataDB;Pooling=true;"));
+
+
+
             services.AddCors(options => options.AddPolicy("AllowLocalhost", builder =>
             {
                 builder
                     .SetIsOriginAllowedToAllowWildcardSubdomains()
-                    .WithOrigins("http://localhost:8081", "http://localhost:8080")
+                    .WithOrigins("http://localhost:8081", "http://localhost:8080", "http://localhost")
                     .AllowAnyMethod()
                     .AllowAnyHeader();
 
@@ -94,9 +111,10 @@ namespace Swallow.WebApi
             });
 
             app.UseCors("AllowLocalhost");
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
+
 
             app.UseAuthentication();
             app.UseAuthorization();

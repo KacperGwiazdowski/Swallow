@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  swallow.client:
+    image: ${DOCKER_REGISTRY-}swallowclient
+    build:
+      context: .
+      dockerfile: swallow-client/Dockerfile
+
+  swallow.webapi:
+    image: ${DOCKER_REGISTRY-}swallowwebapi
+    build:
+      context: .
+      dockerfile: Swallow.WebApi/Dockerfile
+

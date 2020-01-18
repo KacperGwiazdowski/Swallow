@@ -25,6 +25,17 @@ namespace Swallow.Core.Services
             _unitOfWork.SaveChanges();
         }
 
+        public void DactivateUserAccount(Guid userId)
+        {
+            User user = _unitOfWork.Users.Get(userId);
+            if (user.UserRole.Name.Equals("Admin"))
+            {
+                throw new ArgumentException();
+            }
+            user.UserRole.IsAccountActive = false;
+            _unitOfWork.SaveChanges();
+        }
+
         public ICollection<User> GetAllUsers()
         {
             return _unitOfWork.Users.GetAll();

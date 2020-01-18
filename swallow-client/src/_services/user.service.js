@@ -7,7 +7,7 @@ export const userService = {
   register,
   getAll,
   getById,
-  update,
+  activateUserAccount,
   delete: _delete
 };
 
@@ -64,14 +64,12 @@ function getById(id) {
   );
 }
 
-function update(user) {
+function activateUserAccount(userId) {
   const requestOptions = {
     method: "PUT",
     headers: { ...authHeader(), "Content-Type": "application/json" },
-    body: JSON.stringify(user)
   };
-
-  return fetch(`http://localhost:4000/users/${user.id}`, requestOptions).then(
+  return fetch(config.backendUrl + `/Admin/ActivateUserAccount/${userId}` , requestOptions).then(
     handleResponse
   );
 }

@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swallow.Core", "Swallow.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swallow.DataAccessLayer", "Swallow.DataAccessLayer\Swallow.DataAccessLayer.csproj", "{7230E268-236A-4027-83FE-EA140C4C2507}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swallow.DataCollector", "Swallow.DataCollector\Swallow.DataCollector.csproj", "{0CBE0B76-B253-4955-859E-23F6F272733E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swallow.DataCollector", "Swallow.DataCollector\Swallow.DataCollector.csproj", "{0CBE0B76-B253-4955-859E-23F6F272733E}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D3B665C7-0123-46EF-8DF4-127A9168C81D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0CBE0B76-B253-4955-859E-23F6F272733E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CBE0B76-B253-4955-859E-23F6F272733E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CBE0B76-B253-4955-859E-23F6F272733E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3B665C7-0123-46EF-8DF4-127A9168C81D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3B665C7-0123-46EF-8DF4-127A9168C81D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3B665C7-0123-46EF-8DF4-127A9168C81D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3B665C7-0123-46EF-8DF4-127A9168C81D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

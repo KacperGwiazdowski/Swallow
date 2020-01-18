@@ -15,10 +15,17 @@ const actions = {
 
   delete({ commit }, id) {
     commit("deleteRequest", id);
-
     userService.delete(id).then(
       user => commit("deleteSuccess", id),
       error => commit("deleteFailure", { id, error: error.toString() })
+    );
+  },
+
+  activateUser({ commit }, id) {
+    commit("activateUserRequest", id);
+    userService.activateUserAccount(id).then(
+      id => commit("activationSuccess", id),
+      error => commit("activationFailure", { id, error: error.toString() })
     );
   }
 };
@@ -32,6 +39,15 @@ const mutations = {
   },
   getAllFailure(state, error) {
     state.all = { error };
+  },
+  activateUserRequest(state){
+    state.id = { loading: true };
+  },
+  activationSuccess(state, id){
+    state.id = { items: id}
+  },
+  activationFailure(state, error){
+    state.id = { error };
   },
   deleteRequest(state, id) {
     // add 'deleting:true' property to user being deleted

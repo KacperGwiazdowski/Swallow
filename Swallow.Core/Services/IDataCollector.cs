@@ -1,11 +1,12 @@
 ﻿using Swallow.Core.Domains.CollectedData;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace Swallow.DataCollector
+namespace Swallow.Core.Services
 {
     public interface IDataCollector
     {
-        ICollection<MeasurmentStation> GetStations();
+        Task<ICollection<MeasurmentStation>> GetStations();
 
         ICollection<Sensor> GetStationData(int stationId);
 

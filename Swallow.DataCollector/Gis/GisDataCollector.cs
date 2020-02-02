@@ -20,7 +20,7 @@ namespace Swallow.DataCollector.Gis
             _gisBaseUrl = gisBaseUrl;
         }
 
-        public ICollection<DataMeasurment> GetSensorData(int sensorId)
+        public async Task<ICollection<DataMeasurment>> GetSensorData(int sensorId)
         {
             MapperConfiguration mapperConfiguration = new MapperConfiguration(cfg =>
             {
@@ -31,15 +31,14 @@ namespace Swallow.DataCollector.Gis
 
             });
             IMapper mapper = mapperConfiguration.CreateMapper();
-
-            var response = GetAsync($"{_gisBaseUrl}/data/getData/{sensorId}").Result;
+            var response = await GetAsync($"{_gisBaseUrl}/data/getData/{sensorId}");
             var measurmentDtos = JsonConvert.DeserializeObject<MeasurmentDataDto>(response);
             var measurments = mapper.Map<ICollection<DataMeasurment>>(measurmentDtos.Values);
 
             return measurments;
         }
 
-        public ICollection<Sensor> GetStationData(int stationId)
+        public async Task<ICollection<Sensor>> GetStationData(int stationId)
         {
             MapperConfiguration mapperConfiguration = new MapperConfiguration(cfg =>
             {
@@ -47,11 +46,11 @@ namespace Swallow.DataCollector.Gis
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
                 .ForMember(x => x.ChemicalFormula, y => y.MapFrom(z => z.Param.ParamFormula))
                 .ForMember(x => x.ParameterName, x => x.MapFrom(z => z.Param.ParamName))
-                .ForMember(x => x.StationId, y => y.MapFrom(z => stationId));
+                .ForMember(x => x.MeasurmentStationId, y => y.MapFrom(z => stationId));
 
             });
             IMapper mapper = mapperConfiguration.CreateMapper();
-            var response = GetAsync($"{_gisBaseUrl}/station/sensors/{stationId}").Result;
+            var response = await GetAsync($"{_gisBaseUrl}/station/sensors/{stationId}");
             var sensorsDtos = JsonConvert.DeserializeObject<ICollection<SensorDto>>(response);
             var sensors = mapper.Map<ICollection<Sensor>>(sensorsDtos);
             return sensors;

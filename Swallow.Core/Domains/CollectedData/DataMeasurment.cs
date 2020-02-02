@@ -6,7 +6,7 @@ namespace Swallow.Core.Domains.CollectedData
     {
         public decimal Value { get; set; }
 
-        public int SensorId { get; set; }
-        public Sensor Sensor { get; set; }
+        public virtual int SensorId { get; set; }
+        public virtual Sensor Sensor { get; set; }
     }
 }

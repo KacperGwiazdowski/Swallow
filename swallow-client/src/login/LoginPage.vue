@@ -59,8 +59,8 @@ export default {
   data() {
     return {
       appName: dictionary["appName"],
-      username: "admin",
-      password: "admin",
+      username: "Admin",
+      password: "adminadmin",
       submitted: false
     };
   },

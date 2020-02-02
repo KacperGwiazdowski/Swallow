@@ -21,18 +21,18 @@ namespace Swallow.Core.Services
         public void ActivateUserAccount(Guid userId)
         {
             User user = _unitOfWork.Users.Get(userId);
-            user.UserRole.IsAccountActive = true;
+            user.IsAccountActive = true;
             _unitOfWork.SaveChanges();
         }
 
-        public void DactivateUserAccount(Guid userId)
+        public void DeactivateUserAccount(Guid userId)
         {
             User user = _unitOfWork.Users.Get(userId);
-            if (user.UserRole.Name.Equals("Admin"))
+            if (user.UserRole.Equals(UserRole.Admin))
             {
                 throw new ArgumentException();
             }
-            user.UserRole.IsAccountActive = false;
+            user.IsAccountActive = false;
             _unitOfWork.SaveChanges();
         }
 

@@ -7,7 +7,7 @@ namespace Swallow.Core.Services
     public interface IAdminService
     {
         void ActivateUserAccount(Guid userId);
-        void DactivateUserAccount(Guid userId);
+        void DeactivateUserAccount(Guid userId);
         ICollection<User> GetAllUsers();
     }
 }

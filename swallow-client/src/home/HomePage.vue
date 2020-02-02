@@ -2,7 +2,6 @@
   <div>
     <Navbar></Navbar>
     <div class="content">
-      <!-- <h1>Hi {{ firstName }}!</h1> -->
       <span>You're logged in!</span>
     </div>
   </div>

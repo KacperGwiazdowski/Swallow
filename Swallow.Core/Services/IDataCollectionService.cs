@@ -7,8 +7,8 @@ namespace Swallow.Core.Services
     public interface IDataCollectionService
     {
         Task<bool> UpdateStations();
-        bool UpdateSensors();
+        Task<bool> UpdateSensors();
 
-        bool UpdateMeasurments();
+        Task<bool> UpdateMeasurments();
     }
 }

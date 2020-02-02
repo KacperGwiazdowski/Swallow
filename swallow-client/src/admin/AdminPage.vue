@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="wrapper">
     <Navbar></Navbar>
-    <div class="content">
+    <div class="admin-content" >
       <table v-if="users.items" class="table">
       <thead class="thead-light">
         <tr>
@@ -23,8 +23,9 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import Navbar from "../components/navigation/Navbar";
+
 export default {
-  components: { Navbar },
+  components: { Navbar},
   methods: {
     ...mapActions("users", {
       getAllUsers: "getAll",
@@ -51,11 +52,14 @@ export default {
 </script>
 
 <style scoped>
-.content {
+.admin-content {
   margin: 20px;
 }
+
 
 .table{
   width: 50%;
 }
+
+
 </style>

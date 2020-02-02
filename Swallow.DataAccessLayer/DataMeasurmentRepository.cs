@@ -9,7 +9,12 @@ namespace Swallow.DataAccessLayer
 {
     public class DataMeasurmentRepository : IRepository<DataMeasurment, long>
     {
-        //private readonly SwallowCollectedDataDbContext context;
+        private readonly SwallowDataDbContext _context;
+
+        public DataMeasurmentRepository(SwallowDataDbContext context)
+        {
+            _context = context;
+        }
         public long Add(DataMeasurment instance)
         {
             throw new NotImplementedException();
@@ -17,7 +22,7 @@ namespace Swallow.DataAccessLayer
 
         public ICollection<long> AddRange(ICollection<DataMeasurment> instanceList)
         {
-            //_dbMock.AddRange(instanceList);
+            _context.DataMeasurments.AddRange(instanceList);
             return instanceList.Select(x => x.Id).ToArray();
         }
 
@@ -28,12 +33,17 @@ namespace Swallow.DataAccessLayer
 
         public ICollection<DataMeasurment> GetAll()
         {
-            return null;
+            return _context.DataMeasurments.ToList();
+        }
+
+        public ICollection<long> GetAllIds()
+        {
+            throw new NotImplementedException();
         }
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return _context.SaveChanges();
         }
     }
 }

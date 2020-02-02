@@ -10,8 +10,8 @@ namespace Swallow.DataAccessLayer
 {
     public class MeasurmentStationRepository : IRepository<MeasurmentStation, int>
     {
-        private readonly SwallowCollectedDataDbContext _context;
-        public MeasurmentStationRepository(SwallowCollectedDataDbContext context)
+        private readonly SwallowDataDbContext _context;
+        public MeasurmentStationRepository(SwallowDataDbContext context)
         {
             _context = context;
         }
@@ -34,6 +34,13 @@ namespace Swallow.DataAccessLayer
         public ICollection<MeasurmentStation> GetAll()
         {
             return _context.MeasurmentStations.ToArray();
+        }
+
+        public ICollection<int> GetAllIds()
+        {
+            return _context.MeasurmentStations
+                .Select(x => x.Id)
+                .ToArray();
         }
 
         public int SaveChanges()

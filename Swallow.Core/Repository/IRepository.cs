@@ -6,6 +6,7 @@ namespace Swallow.Core.Repository
     public interface IRepository<T, TId> where T : DomainBase<TId>
     {
         ICollection<T> GetAll();
+        ICollection<TId> GetAllIds();
         T Get(TId id);
 
         TId Add(T instance);

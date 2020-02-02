@@ -23,8 +23,8 @@ namespace Swallow.WebApi.Controllers
         [HttpGet("test")]
         public async Task<ActionResult> test()
         {
-          var a = await _dataCollectionService.UpdateStations();
-            //_dataCollectionService.UpdateSensors();
+            var a = await _dataCollectionService.UpdateStations();
+            var b = await _dataCollectionService.UpdateSensors();
             //_dataCollectionService.UpdateMeasurments();
             return Ok();
         }

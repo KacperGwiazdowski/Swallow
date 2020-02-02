@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/">
       <svg style="width:30px;height:30px" viewBox="0 0 30 30">
         <path
           fill="#fff"
@@ -21,7 +21,10 @@
           <a class="nav-link" href="#">Data statistics</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link">Map</a>
+           <router-link to="/map" class="nav-link">
+            Map
+            <span class="sr-only">(current)</span>
+          </router-link>
         </li>
         <li class="nav-item" v-if="isAdmin()">
           <router-link to="/admin" class="nav-link">

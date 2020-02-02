@@ -32,6 +32,9 @@ namespace Swallow.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string passwordKey = Configuration.GetValue<string>("PasswordServiceKey");
+
+
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddScoped<IUserRepository, UserRepository>();
@@ -46,7 +49,7 @@ namespace Swallow.WebApi
             services.AddSingleton<IDataCollector>(sp => new GisDataCollector(Configuration.GetValue<string>("GiosBaseUrl")));
 
             
-            services.AddDbContext<SwallowCollectedDataDbContext>(o =>
+            services.AddDbContext<SwallowDataDbContext>(o =>
                 o.UseLazyLoadingProxies()
                 .UseNpgsql("User ID=postgres;Password=admin;Host=localhost;Port=5432;Database=SwallowDataDB;Pooling=true;"));
 
@@ -78,7 +81,7 @@ namespace Swallow.WebApi
                     x.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("abcdeefasdfafsdfgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(passwordKey)),
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };

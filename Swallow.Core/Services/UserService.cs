@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Swallow.Core.Domains.User;
 using Swallow.Core.Repository;
@@ -17,6 +18,8 @@ namespace Swallow.Core.Services
 
         public UserService(IUnitOfWork unitOfWork, IPasswordSecurityService passwordSecurityService)
         {
+            //_configuration = configuration ??
+            //    throw new ArgumentNullException(nameof(configuration));
             _unitOfWork = unitOfWork ??
                 throw new ArgumentNullException(nameof(unitOfWork));
             _passwordSecurityService = passwordSecurityService ??
@@ -25,9 +28,11 @@ namespace Swallow.Core.Services
 
         public Guid AddUser(User user)
         {
-            user.UserRole = new UserRole { Name = "NormalUser", IsAccountActive = false };
+            user.UserRole = UserRole.NormalUser;
             user.PasswordHash = _passwordSecurityService.HashPassword(user.PasswordHash);
-            return _unitOfWork.Users.Add(user);
+            var guid = _unitOfWork.Users.Add(user);
+            _unitOfWork.SaveChanges();
+            return guid;
         }
 
         public User GetUser(Guid userId)
@@ -38,7 +43,7 @@ namespace Swallow.Core.Services
         public KeyValuePair<User, string> SignInAsync(string username, string password)
         {
             var user = _unitOfWork.Users.GetByUsername(username);
-            if (!user.UserRole.IsAccountActive)
+            if (!user.IsAccountActive)
             {
                 throw new InvalidCredentialException("Account is not activated yet");
             }
@@ -55,7 +60,7 @@ namespace Swallow.Core.Services
                         {
                             new Claim(ClaimTypes.Name, user.FullName),
                             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                            new Claim(ClaimTypes.Role, user.UserRole.Name)
+                            new Claim(ClaimTypes.Role, user.UserRole.ToString())
                         }
                     ),
                     Expires = DateTime.UtcNow.AddHours(8),

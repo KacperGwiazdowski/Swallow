@@ -9,8 +9,8 @@ namespace Swallow.DataAccessLayer
 {
     public class SensorRepository : IRepository<Sensor, int>
     {
-        private readonly SwallowCollectedDataDbContext _context;
-        public SensorRepository(SwallowCollectedDataDbContext context)
+        private readonly SwallowDataDbContext _context;
+        public SensorRepository(SwallowDataDbContext context)
         {
             _context = context;
         }
@@ -35,9 +35,14 @@ namespace Swallow.DataAccessLayer
             return _context.Sensors.ToArray();
         }
 
+        public ICollection<int> GetAllIds()
+        {
+            return _context.Sensors.Select(x => x.Id).ToArray();
+        }
+
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+           return _context.SaveChanges();
         }
     }
 }

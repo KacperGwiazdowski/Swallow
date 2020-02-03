@@ -25,7 +25,7 @@ namespace Swallow.WebApi.Controllers
         {
             var a = await _dataCollectionService.UpdateStations();
             var b = await _dataCollectionService.UpdateSensors();
-            //_dataCollectionService.UpdateMeasurments();
+            var c = _dataCollectionService.UpdateMeasurments();
             return Ok();
         }
 

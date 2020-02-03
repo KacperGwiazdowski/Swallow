@@ -9,6 +9,7 @@ namespace Swallow.Core.Services
 {
     public class DataCollectionService : IDataCollectionService
     {
+        const int DaysToFilterData = 2; 
         private readonly IDataCollector _dataCollector;
         private readonly IUnitOfWork _unitOfWork;
         public DataCollectionService(IDataCollector dataCollector, IUnitOfWork unitOfWork)
@@ -23,11 +24,38 @@ namespace Swallow.Core.Services
             List<DataMeasurment> dataMeasurments = new List<DataMeasurment>();
             foreach (var sensor in sensors)
             {
-                dataMeasurments.AddRange(await _dataCollector.GetSensorData(sensor.Id));
+                var rawDataFromApi = await _dataCollector.GetSensorData(sensor.Id);
+                var lastDayData = GetLastDayData(rawDataFromApi);
+                var dataToAdd = GetFilteredData(lastDayData, sensor.Id);
+                dataMeasurments.AddRange(dataToAdd);
             }
             _unitOfWork.Data.AddRange(dataMeasurments);
-            _unitOfWork.SaveChanges();
+            //_unitOfWork.SaveChanges();
             return true;
+        }
+
+        private ICollection<DataMeasurment> GetFilteredData(ICollection<DataMeasurment> dataMeasurments, int sensorId)
+        {
+            var dataFromDb = _unitOfWork.Data.GetSinceDate(DateTime.Now, sensorId);
+
+            foreach (var record in dataMeasurments)
+            {
+                var recordFromDb = dataFromDb.Where(x => x.CreationDate == record.CreationDate);
+                if (!recordFromDb.Any())
+                {
+                    dataFromDb.Add(record);
+                }
+                if (recordFromDb.Single().Value == null)
+                {
+                    recordFromDb.Single().Value = record.Value;
+                }
+            }
+            return dataFromDb;
+        }
+
+        private ICollection<DataMeasurment> GetLastDayData(ICollection<DataMeasurment> dataMeasurments)
+        {
+            return dataMeasurments.Where(x => x.CreationDate > DateTime.Now.AddDays(-DaysToFilterData)).ToList();
         }
 
         public async Task<bool> UpdateSensors()
@@ -44,7 +72,6 @@ namespace Swallow.Core.Services
                 _unitOfWork.Sensors.AddRange(sensorsToAdd);
                 _unitOfWork.SaveChanges();
             }
-
             return true;
         }
 
@@ -62,8 +89,6 @@ namespace Swallow.Core.Services
             return true;
         }
 
-
-
         private async Task<List<Sensor>> GetSensors(ICollection<MeasurmentStation> stations)
         {
             var sensors = new List<Sensor>();
@@ -76,6 +101,7 @@ namespace Swallow.Core.Services
             return sensors;
         }
 
+       
 
     }
 }

@@ -28,7 +28,7 @@ namespace Swallow.DataAccessLayer
 
         public MeasurmentStation Get(int id)
         {
-            throw new NotImplementedException();
+            return _context.MeasurmentStations.SingleOrDefault(x => x.Id == id);
         }
 
         public ICollection<MeasurmentStation> GetAll()

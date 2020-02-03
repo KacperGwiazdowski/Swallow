@@ -40,7 +40,7 @@ namespace Swallow.WebApi
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRepository<MeasurmentStation, int>, MeasurmentStationRepository>();
             services.AddScoped<IRepository<Sensor, int>, SensorRepository>();
-            services.AddScoped<IRepository<DataMeasurment, long>, DataMeasurmentRepository>();
+            services.AddScoped<IDataMeasurmentRepository, DataMeasurmentRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordSecurityService, PasswordSecurityService>();
@@ -48,10 +48,11 @@ namespace Swallow.WebApi
             services.AddScoped<IDataCollectionService, DataCollectionService>();
             services.AddSingleton<IDataCollector>(sp => new GisDataCollector(Configuration.GetValue<string>("GiosBaseUrl")));
 
-            
+
             services.AddDbContext<SwallowDataDbContext>(o =>
                 o.UseLazyLoadingProxies()
-                .UseNpgsql("User ID=postgres;Password=admin;Host=localhost;Port=5432;Database=SwallowDataDB;Pooling=true;"));
+                .UseSqlServer("Server=.;Database=SwallowDataDB;Trusted_Connection=True;"));
+                //.UseNpgsql("User ID=postgres;Password=admin;Host=localhost;Port=5432;Database=SwallowDataDB;Pooling=true;"));
 
 
 

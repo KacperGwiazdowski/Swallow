@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Swallow.DataAccessLayer
 {
-    public class DataMeasurmentRepository : IRepository<DataMeasurment, long>
+    public class DataMeasurmentRepository : IDataMeasurmentRepository
     {
         private readonly SwallowDataDbContext _context;
 
@@ -39,6 +39,13 @@ namespace Swallow.DataAccessLayer
         public ICollection<long> GetAllIds()
         {
             throw new NotImplementedException();
+        }
+
+        public ICollection<DataMeasurment> GetSinceDate(DateTime sinceDate, int sensorId)
+        {
+            var b = _context.DataMeasurments.Any();
+              var a = _context.DataMeasurments.Where(x => x.SensorId == sensorId).ToList();
+            return null;
         }
 
         public int SaveChanges()

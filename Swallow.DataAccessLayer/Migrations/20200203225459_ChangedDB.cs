@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Swallow.DataAccessLayer.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class ChangedDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +12,7 @@ namespace Swallow.DataAccessLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Latitude = table.Column<decimal>(nullable: false),
@@ -25,16 +24,35 @@ namespace Swallow.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    Username = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    TelephoneNumber = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    IsAccountActive = table.Column<bool>(nullable: false),
+                    UserRole = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sensors",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     ParameterName = table.Column<string>(nullable: true),
                     ChemicalFormula = table.Column<string>(nullable: true),
-                    StationId = table.Column<int>(nullable: false),
-                    MeasurmentStationId = table.Column<int>(nullable: true)
+                    MeasurmentStationId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +62,7 @@ namespace Swallow.DataAccessLayer.Migrations
                         column: x => x.MeasurmentStationId,
                         principalTable: "MeasurmentStations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,9 +70,9 @@ namespace Swallow.DataAccessLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreationDate = table.Column<DateTime>(nullable: false),
-                    Value = table.Column<decimal>(nullable: false),
+                    Value = table.Column<decimal>(nullable: true),
                     SensorId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -83,6 +101,9 @@ namespace Swallow.DataAccessLayer.Migrations
         {
             migrationBuilder.DropTable(
                 name: "DataMeasurments");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Sensors");

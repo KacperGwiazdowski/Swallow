@@ -24,9 +24,9 @@ namespace Swallow.Core.Services
             List<DataMeasurment> dataMeasurments = new List<DataMeasurment>();
             foreach (var sensor in sensors)
             {
-                var rawDataFromApi = await _dataCollector.GetSensorData(sensor.Id);
+                var rawDataFromApi = await _dataCollector.GetSensorData(sensor.Id, sensor.ExternalId);
                 var lastDayData = GetLastDayData(rawDataFromApi);
-                var dataToAdd = GetFilteredData(lastDayData, sensor.Id);
+                var dataToAdd = await GetFilteredData(lastDayData, sensor.Id);
                 dataMeasurments.AddRange(dataToAdd);
             }
             _unitOfWork.Data.AddRange(dataMeasurments);
@@ -34,9 +34,9 @@ namespace Swallow.Core.Services
             return true;
         }
 
-        private ICollection<DataMeasurment> GetFilteredData(ICollection<DataMeasurment> dataMeasurments, int sensorId)
+        private async Task<ICollection<DataMeasurment>> GetFilteredData(ICollection<DataMeasurment> dataMeasurments, int sensorId)
         {
-            var dataFromDb = _unitOfWork.Data.GetSinceDate(DateTime.Now, sensorId);
+            var dataFromDb = await _unitOfWork.Data.GetSinceDate(DateTime.Now, sensorId);
 
             foreach (var record in dataMeasurments)
             {
@@ -63,9 +63,9 @@ namespace Swallow.Core.Services
             var stations = _unitOfWork.MeasurmentStations.GetAll();
             List<Sensor> sensors = await GetSensors(stations);
 
-            var existingSensorsIds = _unitOfWork.Sensors.GetAllIds();
+            var existingSensorsIds = _unitOfWork.Sensors.GetAllExternalIds();
 
-            var sensorsToAdd = sensors.Where(x => !existingSensorsIds.Contains(x.Id)).ToArray();
+            var sensorsToAdd = sensors.Where(x => !existingSensorsIds.Contains(x.ExternalId)).ToArray();
 
             if (sensorsToAdd.Any())
             {
@@ -77,9 +77,9 @@ namespace Swallow.Core.Services
 
         public async Task<bool> UpdateStations()
         {
-            var existingStationsIds = _unitOfWork.MeasurmentStations.GetAllIds();
+            var existingStationsIds = _unitOfWork.MeasurmentStations.GetAllExternalIds();
             var stations = await _dataCollector.GetStations();
-            var stationsToAdd = stations.Where(x => !existingStationsIds.Contains(x.Id)).ToList();
+            var stationsToAdd = stations.Where(x => !existingStationsIds.Contains(x.ExternalId)).ToList();
 
             if (stationsToAdd.Any())
             {
@@ -94,7 +94,8 @@ namespace Swallow.Core.Services
             var sensors = new List<Sensor>();
             foreach (var station in stations)
             {
-                var sensorsForStation = await _dataCollector.GetStationData(station.Id);
+                var sensorsForStation = await _dataCollector.GetStationData(station.Id, station.ExternalId);
+
                 sensors.AddRange(sensorsForStation);
             }
 

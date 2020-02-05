@@ -9,7 +9,11 @@ namespace Swallow.Core.Domains.CollectedData
         public string ChemicalFormula { get; set; }
         ICollection<DataMeasurment> DataMeasurments { get; set; }
 
+        public int ExternalId { get; set; }
+        public ExternalDataProvider ExternalDataProvider { get; set; }
+
         public virtual int MeasurmentStationId { get; set; }
         public virtual MeasurmentStation MeasurmentStation { get; set; }
+
     }
 }

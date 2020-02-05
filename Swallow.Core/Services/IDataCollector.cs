@@ -8,9 +8,9 @@ namespace Swallow.Core.Services
     {
         Task<ICollection<MeasurmentStation>> GetStations();
 
-        Task<ICollection<Sensor>> GetStationData(int stationId);
+        Task<ICollection<Sensor>> GetStationData(int stationId, int externalStationId);
 
-        Task<ICollection<DataMeasurment>> GetSensorData(int sensorId);
+        Task<ICollection<DataMeasurment>> GetSensorData(int sensorId, int externalSensorId);
 
     }
 }

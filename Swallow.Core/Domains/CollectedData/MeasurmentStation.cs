@@ -9,5 +9,8 @@ namespace Swallow.Core.Domains.CollectedData
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         ICollection<Sensor> Sensors { get; set; }
+
+        public int ExternalId { get; set; }
+        public ExternalDataProvider ExternalDataProvider { get; set; }
     }
 }

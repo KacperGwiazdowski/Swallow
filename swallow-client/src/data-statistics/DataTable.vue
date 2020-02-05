@@ -1,26 +1,38 @@
 <template>
   <div>
     <div class="content">
-      {{isAdmin}}
       <table class="table">
         <thead class="thead-light">
           <tr>
             <th>Datetime</th>
             <th>Value</th>
+            <th v-if="isAdmin">Edit</th>
           </tr>
         </thead>
         <tr v-for="record in data" :key="record.datetime">
-          <td>{{record.datetime}}</td>
+          <td>{{presentDateTime(record.datetime)}}</td>
           <td>{{record.value}}</td>
+          <td v-if="isAdmin">
+            <button 
+              class="btn btn-primary" 
+              type="button" 
+              data-toggle="modal" 
+              data-target="#exampleModal" 
+              v-on:click="selectRecord(record)">Edit
+            </button>
+          </td>
         </tr>
       </table>
     </div>
+    <DataEdit v-bind:dataRecord="selectedRecord" ></DataEdit>
   </div>
 </template>
 
 <script>
+import DataEdit from "./DataEdit"
 import { authHeader, isAdmin } from "../_helpers";
 import config from "../config";
+import moment from "moment"
 function handleResponse(response) {
   return response.text().then(text => {
     var data = text && JSON.parse(text);
@@ -37,9 +49,11 @@ function handleResponse(response) {
 
 export default {
   name: "DataTable",
+  components: {DataEdit},
   props: ["selectedSensorId", "selectedDate"],
   data() {
     return {
+      selectedRecord: null,
       requestOptions: { method: "GET", headers: authHeader() },
       data: [],
       isAdmin: isAdmin()
@@ -54,6 +68,14 @@ export default {
     }
   },
   methods: {
+    selectRecord(record){
+      this.selectedRecord = record;
+    },
+    presentDateTime(dateTime){
+    var date = new Date(dateTime);
+  
+  return moment(date).format("DD.MM.YYYY hh:mm a");
+},
     describeData(data) {
       this.data = data;
     },

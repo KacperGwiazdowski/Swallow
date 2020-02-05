@@ -21,7 +21,7 @@
           </div>
           <div class="form-group col-md-4">
             <label>Sensor</label>
-            <select id="inputState" class="form-control" v-model="selectedSensor">
+            <select id="inputState" class="form-control" v-model="selectedSensor" v-on:change="resetDatetime()">
               <option
                 v-for="sensor in sensors"
                 :key="sensor.id"
@@ -77,6 +77,9 @@ export default {
     };
   },
   methods: {
+    resetDatetime(){
+      this.selectedDate = null;
+    },
     describeStations(data) {
       this.stations = data;
     },
@@ -92,7 +95,7 @@ export default {
       this.sensors = data;
     },
     getSensors() {
-      console.log(this.selectedStation);
+      this.resetDatetime();
       return fetch(
         config.backendUrl + `/Sensor/GetByStationId/${this.selectedStation}`,
         this.requestOptions

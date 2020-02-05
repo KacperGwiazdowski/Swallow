@@ -36,7 +36,7 @@ namespace Swallow.Core.Services
 
         private ICollection<DataMeasurment> GetFilteredData(ICollection<DataMeasurment> dataMeasurments, int sensorId)
         {
-            var dataFromDb = _unitOfWork.Data.GetSinceDate(DateTime.Now, sensorId);
+            var dataFromDb = _unitOfWork.Data.GetSinceDate(DateTime.Now.AddDays(-DaysToFilterData), sensorId);
             var newRecords = new List<DataMeasurment>();
 
             foreach (var record in dataMeasurments)

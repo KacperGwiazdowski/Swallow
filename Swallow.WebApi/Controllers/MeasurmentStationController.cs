@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Swallow.Core.Repository;
 using Swallow.Core.Services;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Swallow.WebApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class MeasurmentStationController : Controller
@@ -31,6 +32,7 @@ namespace Swallow.WebApi.Controllers
             return Ok(_unitOfWork.MeasurmentStations.Get(id));
         }
 
+        [Authorize(Policy = "RequireAdmin")]
         [HttpPost(nameof(UpdateStations))]
         public async Task<ActionResult> UpdateStations()
         {

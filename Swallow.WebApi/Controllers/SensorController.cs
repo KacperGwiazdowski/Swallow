@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swallow.Core.Repository;
 using Swallow.Core.Services;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Swallow.WebApi.Controllers
 {
-
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class SensorController : Controller
@@ -46,6 +47,7 @@ namespace Swallow.WebApi.Controllers
             return Ok(sensorsToMap.Select(x => new { id = x.Id, param = x.ParameterName }));
         }
 
+        [Authorize(Policy = "RequireAdmin")]
         [HttpPost(nameof(UpdateSensors))]
         public async Task<ActionResult> UpdateSensors()
         {

@@ -39,7 +39,7 @@ namespace Swallow.WebApi.Controllers
         [HttpPut(nameof(DectivateUserAccount) + "/{id}")]
         public ActionResult DectivateUserAccount(Guid id)
         {
-            _adminService.ActivateUserAccount(id);
+            _adminService.DeactivateUserAccount(id);
             return Ok();
         }
 

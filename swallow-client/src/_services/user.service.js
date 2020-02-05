@@ -6,9 +6,8 @@ export const userService = {
   logout,
   register,
   getAll,
-  getById,
   activateUserAccount,
-  delete: _delete
+  deactivateUserAccount
 };
 
 function login(username, password) {
@@ -53,17 +52,6 @@ function getAll() {
   );
 }
 
-function getById(id) {
-  const requestOptions = {
-    method: "GET",
-    headers: authHeader()
-  };
-
-  return fetch(`http://localhost:4000/users/${id}`, requestOptions).then(
-    handleResponse
-  );
-}
-
 function activateUserAccount(userId) {
   const requestOptions = {
     method: "PUT",
@@ -75,16 +63,17 @@ function activateUserAccount(userId) {
   ).then(handleResponse);
 }
 
-function _delete(id) {
+function deactivateUserAccount(userId) {
   const requestOptions = {
-    method: "DELETE",
-    headers: authHeader()
+    method: "PUT",
+    headers: { ...authHeader(), "Content-Type": "application/json" }
   };
-
-  return fetch(`http://localhost:4000/users/${id}`, requestOptions).then(
-    handleResponse
-  );
+  return fetch(
+    config.backendUrl + `/Admin/DectivateUserAccount/${userId}`,
+    requestOptions
+  ).then(handleResponse);
 }
+
 
 function handleResponseWithoutReload(response) {
   return response.text().then(text => {

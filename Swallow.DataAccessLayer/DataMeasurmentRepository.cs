@@ -56,7 +56,7 @@ namespace Swallow.DataAccessLayer
 
             try
             {
-                data = _context.DataMeasurments.Where(x => x.SensorId == sensorId && x.CreationDate < sinceDate).ToList();
+                data = _context.DataMeasurments.Where(x => x.SensorId == sensorId && x.CreationDate >= sinceDate).ToList();
             }
             catch (Exception e)
             {
@@ -64,6 +64,14 @@ namespace Swallow.DataAccessLayer
                 throw e;
             }
             return data;
+        }
+
+        public bool UpdateRecord(long id, decimal value)
+        {
+            var record = _context.DataMeasurments.Find(id);
+            record.Value = value;
+            _context.DataMeasurments.Update(record);
+            return true;
         }
     }
 }

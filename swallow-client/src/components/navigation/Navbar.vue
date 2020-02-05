@@ -11,26 +11,17 @@
     </a>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <router-link to="/" class="nav-link">
-            Home
-            <span class="sr-only">(current)</span>
-          </router-link>
+        <li class="nav-item">
+          <router-link to="/" class="nav-link">Home</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Data statistics</a>
+          <router-link to="/data" class="nav-link">Data statistics</router-link>
         </li>
         <li class="nav-item">
-           <router-link to="/map" class="nav-link">
-            Map
-            <span class="sr-only">(current)</span>
-          </router-link>
+          <router-link to="/map" class="nav-link">Map</router-link>
         </li>
         <li class="nav-item" v-if="isAdmin()">
-          <router-link to="/admin" class="nav-link">
-            Admin panel
-            <span class="sr-only">(current)</span>
-          </router-link>
+          <router-link to="/admin" class="nav-link">Admin panel</router-link>
         </li>
       </ul>
       <span class="navbar-text">
@@ -82,5 +73,9 @@ export default {
 <style>
 .logout-link {
   cursor: pointer;
+}
+
+.router-link-exact-active {
+  color: #fff !important;
 }
 </style>

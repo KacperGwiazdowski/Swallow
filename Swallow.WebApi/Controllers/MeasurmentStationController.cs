@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swallow.Core.Repository;
 using Swallow.Core.Services;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Swallow.WebApi.Controllers
@@ -21,7 +22,7 @@ namespace Swallow.WebApi.Controllers
         [HttpGet(nameof(GetAllStations))]
         public ActionResult GetAllStations()
         {
-            return Ok(_unitOfWork.MeasurmentStations.GetAll());
+            return Ok(_unitOfWork.MeasurmentStations.GetAll().Select(x => new { id = x.Id, name = x.Name}));
         }
 
         [HttpGet(nameof(GetById) + "/{id}")]

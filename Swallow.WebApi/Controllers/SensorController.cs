@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Swallow.Core.Repository;
 using Swallow.Core.Services;
+using Swallow.DataCollector.Gis.Dtos;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Swallow.WebApi.Controllers
@@ -12,8 +16,10 @@ namespace Swallow.WebApi.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDataCollectionService _dataCollectionService;
-        public SensorController(IUnitOfWork unitOfWork, IDataCollectionService dataCollectionService)
+        private readonly IMapper _mapper;
+        public SensorController(IUnitOfWork unitOfWork, IDataCollectionService dataCollectionService, IMapper mapper)
         {
+            _mapper = mapper;
             _dataCollectionService = dataCollectionService;
             _unitOfWork = unitOfWork;
         }
@@ -30,8 +36,18 @@ namespace Swallow.WebApi.Controllers
             return Ok(_unitOfWork.Sensors.Get(id));
         }
 
-        [HttpPost(nameof(UpdateStations))]
-        public async Task<ActionResult> UpdateStations()
+        [HttpGet(nameof(GetByStationId) + "/{id}")]
+        public ActionResult GetByStationId(int id)
+        {
+            var sensorsToMap = _unitOfWork.Sensors.GetByStationId(id);
+
+            //var sensorsToReturn = _mapper.Map<ICollection<SensorDto>>(sensorsToMap);
+
+            return Ok(sensorsToMap.Select(x => new { id = x.Id, param = x.ParameterName }));
+        }
+
+        [HttpPost(nameof(UpdateSensors))]
+        public async Task<ActionResult> UpdateSensors()
         {
             return Ok(await _dataCollectionService.UpdateSensors());
         }

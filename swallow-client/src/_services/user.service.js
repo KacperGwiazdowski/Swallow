@@ -67,11 +67,12 @@ function getById(id) {
 function activateUserAccount(userId) {
   const requestOptions = {
     method: "PUT",
-    headers: { ...authHeader(), "Content-Type": "application/json" },
+    headers: { ...authHeader(), "Content-Type": "application/json" }
   };
-  return fetch(config.backendUrl + `/Admin/ActivateUserAccount/${userId}` , requestOptions).then(
-    handleResponse
-  );
+  return fetch(
+    config.backendUrl + `/Admin/ActivateUserAccount/${userId}`,
+    requestOptions
+  ).then(handleResponse);
 }
 
 function _delete(id) {

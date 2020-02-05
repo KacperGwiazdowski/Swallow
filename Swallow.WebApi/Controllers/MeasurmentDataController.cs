@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swallow.Core.Repository;
 using System;
+using System.Linq;
 
 namespace Swallow.WebApi.Controllers
 {
@@ -17,7 +18,7 @@ namespace Swallow.WebApi.Controllers
         [HttpGet(nameof(GetSinceDate))]
         public ActionResult GetSinceDate(DateTime sinceDate, int sensorId)
         {
-            return Ok(_unitOfWork.Data.GetSinceDate(sinceDate, sensorId));
+            return Ok(_unitOfWork.Data.GetSinceDate(sinceDate, sensorId).Select(x => new { datetime=x.CreationDate, value = x.Value }));
         }
     }
 }

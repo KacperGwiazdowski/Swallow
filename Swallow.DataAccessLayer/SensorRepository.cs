@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Swallow.DataAccessLayer
 {
-    public class SensorRepository : IRepository<Sensor, int>
+    public class SensorRepository : ISensorRepository
     {
         private readonly SwallowDataDbContext _context;
         public SensorRepository(SwallowDataDbContext context)
@@ -26,7 +26,7 @@ namespace Swallow.DataAccessLayer
 
         public Sensor Get(int id)
         {
-            throw new NotImplementedException();
+            return _context.Sensors.SingleOrDefault(x => x.Id == id);
         }
 
         public ICollection<Sensor> GetAll()
@@ -42,6 +42,11 @@ namespace Swallow.DataAccessLayer
         public ICollection<int> GetAllIds()
         {
             return _context.Sensors.Select(x => x.Id).ToArray();
+        }
+
+        public ICollection<Sensor> GetByStationId(int stationId)
+        {
+            return _context.Sensors.Where(x => x.MeasurmentStationId == stationId).ToList();
         }
 
         public int SaveChanges()

@@ -7,7 +7,7 @@ namespace Swallow.DataAccessLayer
     {
         public UnitOfWork(IUserRepository userRepository,
             IRepository<MeasurmentStation, int> measurmentStationRepository,
-            IRepository<Sensor, int> sensorRepository,
+            ISensorRepository sensorRepository,
             IDataMeasurmentRepository dataRepository
             )
         {
@@ -18,7 +18,7 @@ namespace Swallow.DataAccessLayer
         }
         public IUserRepository Users { get; set; }
         public IRepository<MeasurmentStation, int> MeasurmentStations { get; set; }
-        public IRepository<Sensor, int> Sensors { get; set; }
+        public ISensorRepository Sensors { get; set; }
         public IDataMeasurmentRepository Data { get; set; }
 
         public void SaveChanges()

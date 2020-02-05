@@ -38,7 +38,7 @@ namespace Swallow.WebApi
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRepository<MeasurmentStation, int>, MeasurmentStationRepository>();
-            services.AddScoped<IRepository<Sensor, int>, SensorRepository>();
+            services.AddScoped<ISensorRepository, SensorRepository>();
             services.AddScoped<IDataMeasurmentRepository, DataMeasurmentRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();

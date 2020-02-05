@@ -6,7 +6,7 @@ namespace Swallow.Core.Repository
     {
         IUserRepository Users { get; set; }
         IRepository<MeasurmentStation, int> MeasurmentStations { get; set; }
-        IRepository<Sensor, int> Sensors { get; set; }
+        ISensorRepository Sensors { get; set; }
         IDataMeasurmentRepository Data { get; set; }
 
         void SaveChanges();

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Swallow.Core.Domains.CollectedData;
 using Swallow.Core.Domains.User;
 using Swallow.WebApi.Models;
 
@@ -16,6 +17,8 @@ namespace Swallow.WebApi
             CreateMap<UserRole, UserRoleDto>();
             CreateMap<UserRoleDto, UserRole>();
             CreateMap<User, UserLoginDto>();
+            CreateMap<Sensor, SensorDto>();
+            CreateMap<SensorDto, Sensor>();
         }
     }
 }

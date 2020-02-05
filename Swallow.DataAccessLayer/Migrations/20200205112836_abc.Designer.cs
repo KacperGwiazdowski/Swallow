@@ -10,8 +10,8 @@ using Swallow.DataAccessLayer;
 namespace Swallow.DataAccessLayer.Migrations
 {
     [DbContext(typeof(SwallowDataDbContext))]
-    [Migration("20200203225459_ChangedDB")]
-    partial class ChangedDB
+    [Migration("20200205112836_abc")]
+    partial class abc
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,12 @@ namespace Swallow.DataAccessLayer.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ExternalDataProvider")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExternalId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Latitude")
                         .HasColumnType("decimal(18,2)");
 
@@ -80,6 +86,12 @@ namespace Swallow.DataAccessLayer.Migrations
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("ExternalDataProvider")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExternalId")
+                        .HasColumnType("int");
 
                     b.Property<int>("MeasurmentStationId")
                         .HasColumnType("int");

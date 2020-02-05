@@ -1,6 +1,4 @@
-﻿using Swallow.Core.Domains.CollectedData;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Swallow.Core.Services
 {
@@ -9,6 +7,6 @@ namespace Swallow.Core.Services
         Task<bool> UpdateStations();
         Task<bool> UpdateSensors();
 
-        Task<bool> UpdateMeasurments();
+        bool UpdateMeasurments();
     }
 }

@@ -3,7 +3,6 @@ using Swallow.Core.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Swallow.DataAccessLayer
 {
@@ -35,6 +34,11 @@ namespace Swallow.DataAccessLayer
             return _context.Sensors.ToArray();
         }
 
+        public ICollection<int> GetAllExternalIds()
+        {
+            return _context.Sensors.Select(x => x.ExternalId).ToArray();
+        }
+
         public ICollection<int> GetAllIds()
         {
             return _context.Sensors.Select(x => x.Id).ToArray();
@@ -42,7 +46,7 @@ namespace Swallow.DataAccessLayer
 
         public int SaveChanges()
         {
-           return _context.SaveChanges();
+            return _context.SaveChanges();
         }
     }
 }

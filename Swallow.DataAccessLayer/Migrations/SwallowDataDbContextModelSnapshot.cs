@@ -52,6 +52,12 @@ namespace Swallow.DataAccessLayer.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ExternalDataProvider")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExternalId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Latitude")
                         .HasColumnType("decimal(18,2)");
 
@@ -78,6 +84,12 @@ namespace Swallow.DataAccessLayer.Migrations
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("ExternalDataProvider")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExternalId")
+                        .HasColumnType("int");
 
                     b.Property<int>("MeasurmentStationId")
                         .HasColumnType("int");

@@ -36,6 +36,11 @@ namespace Swallow.DataAccessLayer
             return _context.Users.ToArray();
         }
 
+        public ICollection<Guid> GetAllExternalIds()
+        {
+            throw new NotImplementedException();
+        }
+
         public ICollection<Guid> GetAllIds()
         {
             throw new NotImplementedException();

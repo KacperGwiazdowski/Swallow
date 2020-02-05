@@ -3,7 +3,6 @@ using Swallow.Core.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Swallow.DataAccessLayer
 {
@@ -36,21 +35,35 @@ namespace Swallow.DataAccessLayer
             return _context.DataMeasurments.ToList();
         }
 
+        public ICollection<long> GetAllExternalIds()
+        {
+            throw new NotImplementedException();
+        }
+
         public ICollection<long> GetAllIds()
         {
             throw new NotImplementedException();
         }
 
-        public ICollection<DataMeasurment> GetSinceDate(DateTime sinceDate, int sensorId)
-        {
-            var b = _context.DataMeasurments.Any();
-              var a = _context.DataMeasurments.Where(x => x.SensorId == sensorId).ToList();
-            return null;
-        }
-
         public int SaveChanges()
         {
             return _context.SaveChanges();
+        }
+
+        public ICollection<DataMeasurment> GetSinceDate(DateTime sinceDate, int sensorId)
+        {
+            ICollection<DataMeasurment> data;
+
+            try
+            {
+                data = _context.DataMeasurments.Where(x => x.SensorId == sensorId && x.CreationDate < sinceDate).ToList();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            return data;
         }
     }
 }

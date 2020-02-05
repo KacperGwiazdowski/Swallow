@@ -16,7 +16,7 @@ namespace Swallow.DataAccessLayer
             Sensors = sensorRepository;
             Data = dataRepository;
         }
-        public IUserRepository Users { get; set ; }
+        public IUserRepository Users { get; set; }
         public IRepository<MeasurmentStation, int> MeasurmentStations { get; set; }
         public IRepository<Sensor, int> Sensors { get; set; }
         public IDataMeasurmentRepository Data { get; set; }

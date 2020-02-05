@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace Swallow.DataAccessLayer.Migrations
 {
-    public partial class ChangedDB : Migration
+    public partial class abc : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,9 @@ namespace Swallow.DataAccessLayer.Migrations
                     CreationDate = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Latitude = table.Column<decimal>(nullable: false),
-                    Longitude = table.Column<decimal>(nullable: false)
+                    Longitude = table.Column<decimal>(nullable: false),
+                    ExternalId = table.Column<int>(nullable: false),
+                    ExternalDataProvider = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,6 +54,8 @@ namespace Swallow.DataAccessLayer.Migrations
                     CreationDate = table.Column<DateTime>(nullable: false),
                     ParameterName = table.Column<string>(nullable: true),
                     ChemicalFormula = table.Column<string>(nullable: true),
+                    ExternalId = table.Column<int>(nullable: false),
+                    ExternalDataProvider = table.Column<int>(nullable: false),
                     MeasurmentStationId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

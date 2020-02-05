@@ -13,6 +13,6 @@ namespace Swallow.Core.Domains.User
         public string Email { get; set; }
         public bool IsAccountActive { get; set; }
         public string FullName => $"{FirstName} {LastName}";
-        public  UserRole UserRole { get; set; }
+        public UserRole UserRole { get; set; }
     }
 }

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Authentication;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swallow.Core.Domains.User;
 using Swallow.Core.Services;
 using Swallow.WebApi.Models;
+using System;
+using System.Collections.Generic;
+using System.Security.Authentication;
 
 namespace Swallow.WebApi.Controllers
 {

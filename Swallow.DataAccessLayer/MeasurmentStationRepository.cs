@@ -3,7 +3,6 @@ using Swallow.Core.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 
 namespace Swallow.DataAccessLayer
@@ -34,6 +33,13 @@ namespace Swallow.DataAccessLayer
         public ICollection<MeasurmentStation> GetAll()
         {
             return _context.MeasurmentStations.ToArray();
+        }
+
+        public ICollection<int> GetAllExternalIds()
+        {
+            return _context.MeasurmentStations
+                 .Select(x => x.ExternalId)
+                 .ToArray();
         }
 
         public ICollection<int> GetAllIds()

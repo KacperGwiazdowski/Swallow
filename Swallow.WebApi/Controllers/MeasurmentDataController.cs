@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swallow.Core.Repository;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Swallow.WebApi.Controllers
 {
@@ -17,10 +14,10 @@ namespace Swallow.WebApi.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet(nameof(test))]
-        public ActionResult test()
+        [HttpGet(nameof(GetSinceDate))]
+        public ActionResult GetSinceDate(DateTime sinceDate, int sensorId)
         {
-            return Ok(_unitOfWork.Data.GetAll());
+            return Ok(_unitOfWork.Data.GetSinceDate(sinceDate, sensorId));
         }
     }
 }

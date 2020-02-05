@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Swallow.DataCollector.Gis.Dtos
+﻿namespace Swallow.DataCollector.Gis.Dtos
 {
     public class SensorDto
     {

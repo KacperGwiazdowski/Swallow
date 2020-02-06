@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Swallow.Core.Services;
 using System.Threading.Tasks;
 
 namespace Swallow.WebApi.Controllers
 {
+    [Authorize(Policy = "RequireAdmin")]
     [ApiController]
     [Route("[controller]")]
     public class DataCollectionController : Controller
@@ -15,11 +17,9 @@ namespace Swallow.WebApi.Controllers
             _dataCollectionService = dataCollectionService;
         }
 
-        [HttpGet("test")]
-        public async Task<ActionResult> test()
+        [HttpPost(nameof(CollectData))]
+        public async Task<ActionResult> CollectData()
         {
-            //var a = await _dataCollectionService.UpdateStations();
-            //var b = await _dataCollectionService.UpdateSensors();
             var c = _dataCollectionService.UpdateMeasurments();
             return Ok();
         }

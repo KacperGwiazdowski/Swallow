@@ -4,6 +4,7 @@
     <div class="admin-content" >
       <button class="btn btn-primary" v-on:click="updateStations()" >Update stations</button>
       <button class="btn btn-primary" v-on:click="updateSensors()">Update sensors</button>
+      <button class="btn btn-primary" v-on:click="updateData()">Update data</button>
       <table v-if="users.items" class="table">
       <thead class="thead-light">
         <tr>
@@ -47,6 +48,13 @@ export default {
   components: { Navbar},
   data() {return{requestOptions: { method: "POST", headers: authHeader() }}},
   methods: {
+    updateData(){
+      return fetch(
+        config.backendUrl +
+          `/DataCollection/CollectData`,
+        this.requestOptions
+      ).then(handleResponse).then(this.getUpdateResponse)
+    },
     getUpdateResponse(response){
       console.log(response)
     },

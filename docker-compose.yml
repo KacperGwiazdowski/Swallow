@@ -13,3 +13,5 @@ services:
       context: .
       dockerfile: Swallow.WebApi/Dockerfile
 
+  swallow.db:
+    image: "mcr.microsoft.com/mssql/server:2017-latest"

@@ -1,2 +1,2 @@
-const config = { backendUrl: "https://localhost:44362" };
+const config = { backendUrl: "https://localhost:44372" };
 export default config;

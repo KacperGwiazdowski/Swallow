@@ -16,3 +16,13 @@ services:
   swallow.client:
     ports:
       - "80:80"
+
+  swallow.db:
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+      - "1434:1434"
+

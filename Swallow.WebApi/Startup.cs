@@ -50,7 +50,7 @@ namespace Swallow.WebApi
 
             services.AddDbContext<SwallowDataDbContext>(o =>
                 o.UseLazyLoadingProxies()
-                .UseSqlServer("Server=127.0.0.1;Database=SwallowDataDB;User=sa;Password=Your_password123;"));
+                .UseSqlServer(@"Server=swallow.db;Database=SwallowDataDB;User=sa;Password=Your_password123;"));
             //.UseNpgsql("User ID=postgres;Password=admin;Host=localhost;Port=5432;Database=SwallowDataDB;Pooling=true;"));
 
 

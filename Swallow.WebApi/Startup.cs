@@ -114,7 +114,7 @@ namespace Swallow.WebApi
             });
 
             app.UseCors("AllowLocalhost");
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

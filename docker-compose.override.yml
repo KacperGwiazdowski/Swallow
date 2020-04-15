@@ -4,7 +4,7 @@ services:
   swallow.webapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_URLS=http://+:54828
     ports:
       - "54828:54828"
     volumes:

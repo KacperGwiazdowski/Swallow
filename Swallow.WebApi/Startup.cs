@@ -59,9 +59,10 @@ namespace Swallow.WebApi
             {
                 builder
                     .SetIsOriginAllowedToAllowWildcardSubdomains()
-                    .WithOrigins("http://localhost:8081", "http://localhost:8080", "http://localhost")
+                    //.WithOrigins("http://localhost:8081", "http://localhost:8080", "http://localhost")
                     .AllowAnyMethod()
-                    .AllowAnyHeader();
+                    .AllowAnyHeader()
+                    .AllowAnyOrigin();
 
                 builder.AllowAnyMethod();
                 builder.WithHeaders(HeaderNames.ContentType,

@@ -25,4 +25,7 @@ services:
     ports:
       - "1433:1433"
       - "1434:1434"
+    volumes: [
+        peta-db-volume:/var/opt/mssql
+    ]
 

@@ -1,5 +1,8 @@
 version: '3.4'
 
+volumes:
+    swallow-db-volume:
+
 services:
   swallow.webapi:
     environment:
@@ -26,6 +29,6 @@ services:
       - "1433:1433"
       - "1434:1434"
     volumes: [
-        peta-db-volume:/var/opt/mssql
+        swallow-db-volume:/var/opt/mssql
     ]
 

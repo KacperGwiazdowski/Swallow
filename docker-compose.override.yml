@@ -8,7 +8,6 @@ services:
       - ASPNETCORE_HTTPS_PORT=44372
     ports:
       - "54828:80"
-      - "44372:443"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

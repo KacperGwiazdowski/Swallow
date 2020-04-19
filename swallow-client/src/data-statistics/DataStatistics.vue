@@ -21,7 +21,11 @@
           </div>
           <div class="form-group col-md-4">
             <label>Sensor</label>
-            <select id="inputState" class="form-control" v-model="selectedSensor" v-on:change="resetDatetime()">
+            <select 
+            id="inputState" 
+            class="form-control" 
+            v-model="selectedSensor" 
+            v-on:change="resetDatetime()">
               <option
                 v-for="sensor in sensors"
                 :key="sensor.id"

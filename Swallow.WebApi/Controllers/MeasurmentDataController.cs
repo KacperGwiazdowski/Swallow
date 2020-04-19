@@ -19,7 +19,7 @@ namespace Swallow.WebApi.Controllers
         [HttpGet(nameof(GetSinceDate))]
         public ActionResult GetSinceDate(DateTime sinceDate, int sensorId)
         {
-            return Ok(_unitOfWork.Data.GetSinceDate(sinceDate, sensorId).Select(x => new { id=x.Id, datetime=x.CreationDate, value = x.Value }));
+            return Ok(_unitOfWork.Data.GetSinceDate(sinceDate, sensorId).Select(x => new { id=x.Id, datetime=x.CreationDate, value = x.Value }).OrderBy(x => x.datetime));
         }
 
         [Authorize(Policy = "RequireAdmin")]

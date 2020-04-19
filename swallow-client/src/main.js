@@ -10,13 +10,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 Vue.use(VeeValidate);
 
-
-import vuetify from './plugins/vuetify';
-
 new Vue({
   el: "#app",
   router,
   store,
-  vuetify,
   render: h => h(App)
 });

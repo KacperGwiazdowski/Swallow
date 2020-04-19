@@ -1,5 +1,6 @@
 <template>
   <div>
+    <DataChart v-if="loaded" v-bind:data="data"/>
     <div class="content">
       <table class="table">
         <thead class="thead-light">
@@ -32,7 +33,9 @@
 import DataEdit from "./DataEdit"
 import { authHeader, isAdmin } from "../_helpers";
 import config from "../config";
-import moment from "moment"
+import moment from "moment";
+import DataChart from "./DataChart"
+
 function handleResponse(response) {
   return response.text().then(text => {
     var data = text && JSON.parse(text);
@@ -49,14 +52,15 @@ function handleResponse(response) {
 
 export default {
   name: "DataTable",
-  components: {DataEdit},
+  components: {DataEdit, DataChart},
   props: ["selectedSensorId", "selectedDate"],
   data() {
     return {
       selectedRecord: null,
       requestOptions: { method: "GET", headers: authHeader() },
       data: [],
-      isAdmin: isAdmin()
+      isAdmin: isAdmin(),
+      loaded: false
     };
   },
   watch: {
@@ -86,7 +90,8 @@ export default {
         this.requestOptions
       )
         .then(handleResponse)
-        .then(this.describeData);
+        .then(this.describeData)
+        .then(() => this.loaded = true);
     }
   }
 };

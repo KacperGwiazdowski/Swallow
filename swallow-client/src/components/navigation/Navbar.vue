@@ -28,9 +28,9 @@
         <li class="nav-item">
           <router-link to="/data" class="nav-link">Data statistics</router-link>
         </li>
-        <!-- <li class="nav-item">
+        <li class="nav-item">
           <router-link to="/map" class="nav-link">Map</router-link>
-        </li>-->
+        </li>
         <li class="nav-item" v-if="isAdmin()">
           <router-link to="/admin" class="nav-link">Admin panel</router-link>
         </li>
